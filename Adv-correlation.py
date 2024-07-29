@@ -174,40 +174,40 @@ if uploaded_file:
         st.pyplot(plt.gcf())
         plt.clf()
 
-        # Plot correlation matrix with significance
-        st.subheader("Correlation Heatmap with Significance")
-        p_values = correlation_significance(data)
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(corr_methods['Pearson'], annot=True, cmap='coolwarm', fmt=".2f", mask=p_values > 0.05)
-        plt.title('Correlation Heatmap with Significance Mask')
-        st.pyplot(plt.gcf())
-        plt.clf()
+      # Plot correlation matrix with significance
+st.subheader("Correlation Heatmap with Significance")
+p_values = correlation_significance(data)
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_methods['Pearson'], annot=True, cmap='coolwarm', fmt=".2f", mask=p_values > 0.05)
+plt.title('Correlation Heatmap with Significance Mask')
+st.pyplot(plt.gcf())
+plt.clf()
 
-        # Interpretations
-        st.subheader("Interpretations")
-        st.write("### Correlation Matrices")
-        st.write("The correlation matrices show the pairwise correlation coefficients between variables using different methods (Pearson, Spearman, Kendall). Each method has its own characteristics:")
-        st.write(" - **Pearson**: Measures linear relationships.")
-        st.write(" - **Spearman**: Measures monotonic relationships, less sensitive to outliers.")
-        st.write(" - **Kendall**: Measures ordinal relationships, robust against ties.")
+# Interpretations
+st.subheader("Interpretations")
+st.write("### Correlation Matrices")
+st.write("The correlation matrices show the pairwise correlation coefficients between variables using different methods (Pearson, Spearman, Kendall). Each method has its own characteristics:")
+st.write(" - **Pearson**: Measures linear relationships.")
+st.write(" - **Spearman**: Measures monotonic relationships, less sensitive to outliers.")
+st.write(" - **Kendall**: Measures ordinal relationships, robust against ties.")
 
-        st.write("### Correlation Heatmap")
-        st.write("The heatmap visualizes the correlation matrices. Darker colors represent stronger correlations (positive or negative).")
+st.write("### Correlation Heatmap")
+st.write("The heatmap visualizes the correlation matrices. Darker colors represent stronger correlations (positive or negative).")
 
-        st.write("### Interactive Correlation Heatmap")
-        st.write("Interactive heatmap allows for better exploration of correlations. Hover over cells to see values.")
+st.write("### Interactive Correlation Heatmap")
+st.write("Interactive heatmap allows for better exploration of correlations. Hover over cells to see values.")
 
-        st.write("### Pairwise Scatter Plots with Regression Lines")
-        st.write("Scatter plots with regression lines show relationships between variables. Trends or patterns in these plots can indicate correlations.")
+st.write("### Pairwise Scatter Plots with Regression Lines")
+st.write("Scatter plots with regression lines show relationships between variables. Trends or patterns in these plots can indicate correlations.")
 
-        st.write("### Correlation Matrix with Histograms")
-        st.write("Heatmap with histograms on the diagonal provides insights into the distribution of individual variables and their correlations.")
+st.write("### Correlation Matrix with Histograms")
+st.write("Heatmap with histograms on the diagonal provides insights into the distribution of individual variables and their correlations.")
 
-        st.write("### Correlation Circle Plot")
-        st.write("The correlation circle plot visualizes the correlations between variables in a 2D space, using principal component analysis.")
+st.write("### Correlation Circle Plot")
+st.write("The correlation circle plot visualizes the correlations between variables in a 2D space, using principal component analysis.")
 
-        st.write("### Clustered Correlation Heatmap")
-        st.write("Clustered heatmap groups similar variables together, making it easier to identify patterns and relationships.")
+st.write("### Clustered Correlation Heatmap")
+st.write("Clustered heatmap groups similar variables together, making it easier to identify patterns and relationships.")
 
-        st.write("### Correlation Heatmap with Significance")
-        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p-values greater
+st.write("### Correlation Heatmap with Significance")
+st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p-values greater than 0.05 are masked.")

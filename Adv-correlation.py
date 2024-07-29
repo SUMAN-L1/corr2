@@ -210,6 +210,4 @@ if uploaded_file:
         st.write("Clustered heatmap groups similar variables together, making it easier to identify patterns and relationships.")
 
         st.write("### Correlation Heatmap with Significance")
-        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p-values greater than 0.05 are masked.")
-    
-   
+        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p-values greater

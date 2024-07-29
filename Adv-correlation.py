@@ -117,4 +117,90 @@ if uploaded_file:
         
         # Display correlation matrices
         for method, corr_matrix in corr_methods.items():
-           
+            st.write(f"Correlation Matrix ({method}):")
+            st.write(corr_matrix)
+
+            # Plot Correlation Heatmap
+            st.subheader(f"Correlation Heatmap ({method})")
+            plt.figure(figsize=(10, 8))
+            sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+            plt.title(f'Correlation Heatmap ({method})')
+            st.pyplot(plt.gcf())
+            plt.clf()
+
+        # Plot interactive heatmap using Plotly
+        st.subheader("Interactive Correlation Heatmap (Pearson)")
+        fig = px.imshow(corr_methods['Pearson'], text_auto=True, color_continuous_scale='coolwarm')
+        fig.update_layout(title='Interactive Correlation Heatmap (Pearson)')
+        st.plotly_chart(fig)
+
+        # Plot pairwise scatter plots with regression lines
+        st.subheader("Pairwise Scatter Plots with Regression Lines")
+        pair_plot = sns.pairplot(data, kind='reg')
+        st.pyplot(pair_plot.figure)
+        plt.clf()
+
+        # Plot correlation matrix with histograms
+        st.subheader("Correlation Matrix with Histograms")
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(data.corr(), annot=True, cmap='coolwarm', fmt=".2f", square=True, cbar_kws={"shrink": .8})
+        # Diagonal histograms
+        for i, col in enumerate(data.columns):
+            plt.subplot(len(data.columns), len(data.columns), i*len(data.columns) + i + 1)
+            plt.hist(data[col].dropna(), bins=20, color='lightblue', edgecolor='black')
+            plt.title(col, fontsize=10)
+        st.pyplot(plt.gcf())
+        plt.clf()
+
+        # Plot Correlation Circle Plot
+        st.subheader("Correlation Circle Plot")
+        corr_matrix = corr_methods['Pearson']
+        correlation_circle(corr_matrix)
+
+        # Plot Clustered Heatmap
+        st.subheader("Clustered Correlation Heatmap")
+        from sklearn.preprocessing import StandardScaler
+        scaler = StandardScaler()
+        scaled_data = scaler.fit_transform(data)
+        corr_matrix = pd.DataFrame(scaled_data).corr()
+        sns.clustermap(corr_matrix, annot=True, cmap='coolwarm', figsize=(10, 10))
+        st.pyplot(plt.gcf())
+        plt.clf()
+
+        # Plot correlation matrix with significance
+        st.subheader("Correlation Heatmap with Significance")
+        p_values = correlation_significance(data)
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(corr_methods['Pearson'], annot=True, cmap='coolwarm', fmt=".2f", mask=p_values > 0.05)
+        plt.title('Correlation Heatmap with Significance Mask')
+        st.pyplot(plt.gcf())
+        plt.clf()
+
+        # Interpretations
+        st.subheader("Interpretations")
+        st.write("### Correlation Matrices")
+        st.write("The correlation matrices show the pairwise correlation coefficients between variables using different methods (Pearson, Spearman, Kendall). Each method has its own characteristics:")
+        st.write(" - **Pearson**: Measures linear relationships.")
+        st.write(" - **Spearman**: Measures monotonic relationships, less sensitive to outliers.")
+        st.write(" - **Kendall**: Measures ordinal relationships, robust against ties.")
+
+        st.write("### Correlation Heatmap")
+        st.write("The heatmap visualizes the correlation matrices. Darker colors represent stronger correlations (positive or negative).")
+
+        st.write("### Interactive Correlation Heatmap")
+        st.write("Interactive heatmap allows for better exploration of correlations. Hover over cells to see values.")
+
+        st.write("### Pairwise Scatter Plots with Regression Lines")
+        st.write("Scatter plots with regression lines show relationships between variables. Trends or patterns in these plots can indicate correlations.")
+
+        st.write("### Correlation Matrix with Histograms")
+        st.write("Heatmap with histograms on the diagonal provides insights into the distribution of individual variables and their correlations.")
+
+        st.write("### Correlation Circle Plot")
+        st.write("The correlation circle plot visualizes the correlations between variables in a 2D space, using principal component analysis.")
+
+        st.write("### Clustered Correlation Heatmap")
+        st.write("Clustered heatmap groups similar variables together, making it easier to identify patterns and relationships.")
+
+        st.write("### Correlation Heatmap with Significance")
+        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p

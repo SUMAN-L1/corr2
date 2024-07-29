@@ -43,16 +43,24 @@ def preprocess_data(data):
     data = data[(z_scores < 3).all(axis=1)]
     return data
 
+# Function to attempt reading a CSV file with different encodings
+def read_csv_with_encodings(file, encodings=['utf-8', 'latin1', 'ISO-8859-1']):
+    for encoding in encodings:
+        try:
+            return pd.read_csv(file, encoding=encoding)
+        except UnicodeDecodeError:
+            continue
+    raise ValueError("Unable to decode the file with the provided encodings.")
+
 # Function to read data from uploaded file
 def read_file(file, file_type):
-    if file_type in ['csv', 'xlsx', 'xls']:
-        if file_type == 'csv':
-            return read_csv_with_encodings(file)
-        elif file_type in ['xlsx', 'xls']:
-            try:
-                return pd.read_excel(file)
-            except Exception as e:
-                raise ValueError(f"Unable to read the Excel file. Error: {e}")
+    if file_type == 'csv':
+        return read_csv_with_encodings(file)
+    elif file_type in ['xlsx', 'xls']:
+        try:
+            return pd.read_excel(file)
+        except Exception as e:
+            raise ValueError(f"Unable to read the Excel file. Error: {e}")
     else:
         raise ValueError("Unsupported file type. Please upload a CSV or Excel file.")
 
@@ -159,7 +167,6 @@ if uploaded_file:
 
         # Plot Clustered Heatmap
         st.subheader("Clustered Correlation Heatmap")
-        from sklearn.preprocessing import StandardScaler
         scaler = StandardScaler()
         scaled_data = scaler.fit_transform(data)
         corr_matrix = pd.DataFrame(scaled_data).corr()
@@ -203,4 +210,6 @@ if uploaded_file:
         st.write("Clustered heatmap groups similar variables together, making it easier to identify patterns and relationships.")
 
         st.write("### Correlation Heatmap with Significance")
-        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p
+        st.write("This heatmap includes a mask to highlight significant correlations at a 5% significance level. Correlations with p-values greater than 0.05 are masked.")
+    
+   
